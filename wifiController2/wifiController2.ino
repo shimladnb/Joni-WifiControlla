@@ -14,7 +14,6 @@
 
 GY521 sensor(0x68);
 
-uint32_t counter = 0;
 int sensorReading = 0;
 
 IPAddress outIp(172, 20, 10, 2);
@@ -68,6 +67,7 @@ void setup() {
   sensor.gxe = 10.702;
   sensor.gye = -6.436;
   sensor.gze = -0.676;
+  
 }
 
 //////////////////////////////////////RUN//////////////////////////////////////////
