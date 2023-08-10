@@ -19,10 +19,9 @@ int sensorReading = 0;
 
 IPAddress outIp(172, 20, 10, 2);
 
-unsigned int localPort = 2323;  // local port to listen on
-
-char packetBuffer[UDP_TX_PACKET_MAX_SIZE + 1];  // buffer to hold incoming packet,
-char ReplyBuffer[] = "acknowledged\r\n";        // a string to send back
+unsigned int localPort = 2323;  
+char packetBuffer[UDP_TX_PACKET_MAX_SIZE + 1];  
+char ReplyBuffer[] = "acknowledged\r\n";        
 const int knockSensor = A0;
 
 char address[] = "/voet/1";
