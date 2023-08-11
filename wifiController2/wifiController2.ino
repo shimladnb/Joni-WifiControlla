@@ -5,27 +5,25 @@
 #include <OSCMessage.h>
 #include "GY521.h"
 
+//////////////////////////////////////INITIALIZE VARIABLES//////////////////////////////////////////
+
 #ifndef STASSID
 #define STASSID "iPhone van Jonathan"
 #define STAPSK "baardkrent"
 #endif
 
-//////////////////////////////////////INITIALIZE VARIABLES//////////////////////////////////////////
-
-GY521 sensor(0x68);
-
-int sensorReading = 0;
-
 IPAddress outIp(172, 20, 10, 2);
-
 unsigned int localPort = 2323;
-char packetBuffer[UDP_TX_PACKET_MAX_SIZE + 1];
-char ReplyBuffer[] = "acknowledged\r\n";
-const int knockSensor = A0;
-
 char address[] = "/voet/1";
 
+char packetBuffer[UDP_TX_PACKET_MAX_SIZE + 1];
+char ReplyBuffer[] = "acknowledged\r\n";
+
+GY521 sensor(0x68);
 WiFiUDP Udp;
+
+int sensorReading = 0;
+const int knockSensor = A0;
 
 //////////////////////////////////////INITIALIZE SETUP//////////////////////////////////////////
 
@@ -57,10 +55,9 @@ void setup() {
   }
   sensor.setAccelSensitivity(2);  //  8g
   sensor.setGyroSensitivity(1);   //  500 degrees/s
-
   sensor.setThrottle();
   Serial.println("start...");
-
+  
   sensor.axe = 0.574;
   sensor.aye = -0.002;
   sensor.aze = -1.043;
@@ -84,7 +81,6 @@ void loop() {
 //  float ay = sensor.getAccelY();
 //  float az = sensor.getAccelZ();
 
-
   // COMPOSE OSC MESSAGE
   OSCMessage msg(address);
   msg.add(gx);
@@ -93,7 +89,6 @@ void loop() {
 
   sensorReading = analogRead(knockSensor);
   msg.add(sensorReading);
-
 
   // ACTUALLY SEND THE OSC MESSAGE
   Udp.beginPacket(outIp, localPort);
