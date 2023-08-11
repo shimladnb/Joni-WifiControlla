@@ -18,9 +18,9 @@ int sensorReading = 0;
 
 IPAddress outIp(172, 20, 10, 2);
 
-unsigned int localPort = 2323;  
-char packetBuffer[UDP_TX_PACKET_MAX_SIZE + 1];  
-char ReplyBuffer[] = "acknowledged\r\n";        
+unsigned int localPort = 2323;
+char packetBuffer[UDP_TX_PACKET_MAX_SIZE + 1];
+char ReplyBuffer[] = "acknowledged\r\n";
 const int knockSensor = A0;
 
 char address[] = "/voet/1";
@@ -67,7 +67,7 @@ void setup() {
   sensor.gxe = 10.702;
   sensor.gye = -6.436;
   sensor.gze = -0.676;
-  
+
 }
 
 //////////////////////////////////////RUN//////////////////////////////////////////
@@ -76,24 +76,29 @@ void loop() {
 
   // INITIALIZE SENSOR MODULE
   sensor.read();
-  float x = sensor.getAngleX();
-  float y = sensor.getAngleY();
-  float z = sensor.getAngleZ();
+  float gx = sensor.getAngleX();
+  float gy = sensor.getAngleY();
+  float gz = sensor.getAngleZ();
+
+//  float ax = sensor.getAccelX();
+//  float ay = sensor.getAccelY();
+//  float az = sensor.getAccelZ();
+
 
   // COMPOSE OSC MESSAGE
   OSCMessage msg(address);
-  msg.add(x);
-  msg.add(y);
-  msg.add(z);
+  msg.add(gx);
+  msg.add(gy);
+  msg.add(gz);
 
   sensorReading = analogRead(knockSensor);
   msg.add(sensorReading);
 
- 
+
   // ACTUALLY SEND THE OSC MESSAGE
   Udp.beginPacket(outIp, localPort);
-  msg.send(Udp); 
-  Udp.endPacket(); 
-  msg.empty(); 
-  
+  msg.send(Udp);
+  Udp.endPacket();
+  msg.empty();
+
 }
